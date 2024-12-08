@@ -1,0 +1,15 @@
+
+.TodoElement {
+    display: 'block';
+    color : 'black' ; 
+    border: '2px dotted';
+    width: 'fit-content';
+}
+
+.MainContainer  {
+
+    position: absolute; /* Position the element absolutely within the viewport */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

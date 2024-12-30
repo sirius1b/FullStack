@@ -1,13 +1,14 @@
-package com.sirius1b.lld;
+package com.sirius1b.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LldApplication {
+public class AuthService {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LldApplication.class, args);
+		SpringApplication.run(AuthService.class, args);
 	}
 
 }
+	

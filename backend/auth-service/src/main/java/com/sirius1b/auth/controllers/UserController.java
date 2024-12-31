@@ -3,6 +3,7 @@ package com.sirius1b.auth.controllers;
 
 import com.sirius1b.auth.dtos.*;
 import com.sirius1b.auth.exceptions.CredentialException;
+import com.sirius1b.auth.exceptions.RoleNotFoundException;
 import com.sirius1b.auth.exceptions.TokenNotFoundException;
 import com.sirius1b.auth.exceptions.UserNotFoundException;
 import com.sirius1b.auth.models.Token;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public SignupRespDto signup(@RequestBody  SignupDto request){
+    public SignupRespDto signup(@RequestBody  SignupDto request) throws RoleNotFoundException {
         log.info(request.toString());
         User user =  userService.signup( request.getName(),
                                     request.getEmail(),

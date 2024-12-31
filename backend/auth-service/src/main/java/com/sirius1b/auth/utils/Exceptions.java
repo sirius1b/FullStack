@@ -5,6 +5,6 @@ public enum Exceptions {
 
     USER_NOT_FOUND,
     TOKEN_NOT_FOUND,
-    WRONG_CREDENTIAL;
+    WRONG_CREDENTIAL, ROLE_NOT_FOUND;
 
 }

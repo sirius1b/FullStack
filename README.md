@@ -1,4 +1,4 @@
-## I'm a fullstack dev
+## Work in Progress 🏗️
 
 This is my playground, where I test ideas, iterations, implementations and track them for future uses.
 

@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 @Service
 public class JwtService {
 
+    private static final String ROLES = "roles";
+
 
     @Autowired
     private SecurityJwtConfig jwtConfig;
@@ -51,7 +53,7 @@ public class JwtService {
         return Jwts
                 .builder()
                 .claims(extraClaims)
-                .claim("roles", userDetails.getAuthorities())
+                .claim(ROLES, userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(expiration))
@@ -67,7 +69,7 @@ public class JwtService {
         Claims claims = extractAllClaims(token);
 
         // Extract roles claim and cast it to List<String>
-        List<String> roles = claims.get("roles", List.class);
+        List<String> roles = claims.get(ROLES, List.class);
 
         // Convert roles to GrantedAuthority objects
         return roles.stream()

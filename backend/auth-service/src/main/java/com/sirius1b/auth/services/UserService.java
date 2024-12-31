@@ -2,18 +2,21 @@ package com.sirius1b.auth.services;
 
 import com.sirius1b.auth.configs.SecurityJwtConfig;
 import com.sirius1b.auth.exceptions.CredentialException;
+import com.sirius1b.auth.exceptions.RoleNotFoundException;
 import com.sirius1b.auth.exceptions.TokenNotFoundException;
 import com.sirius1b.auth.exceptions.UserNotFoundException;
+import com.sirius1b.auth.models.Role;
 import com.sirius1b.auth.models.Token;
 import com.sirius1b.auth.models.User;
+import com.sirius1b.auth.repos.RoleRepository;
 import com.sirius1b.auth.repos.TokenRepository;
 import com.sirius1b.auth.repos.UserRepository;
-import io.jsonwebtoken.Jwt;
+import com.sirius1b.auth.utils.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.Collections;
 
 @Service
 public class UserService {
@@ -25,6 +28,7 @@ public class UserService {
     private BCryptPasswordEncoder encoder;
 
     private JwtService jwtService;
+    private RoleRepository roleRepository;
 
     @Autowired
     private SecurityJwtConfig jwtConfig;
@@ -32,21 +36,32 @@ public class UserService {
     public UserService(UserRepository userRepository,
                        TokenRepository tokenRepository,
                        BCryptPasswordEncoder encoder,
-                       JwtService jwtService){
+                       JwtService jwtService,
+                       RoleRepository roleRepository){
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.encoder = encoder;
         this.jwtService = jwtService;
+        this.roleRepository = roleRepository;
+
     }
 
     public User signup(String name,
                        String email,
-                       String password){
+                       String password) throws RoleNotFoundException {
 
         User user = new User();
         user.setEmail(email);
         user.setName(name);
         user.setHashedPassword(encoder.encode(password));
+
+        Role userRole = roleRepository.findByValue(Roles.USER.toString()).orElse(null);
+
+        if (userRole == null){
+            throw new RoleNotFoundException("NOT FOUND USER ROLE");
+        }
+
+        user.setRoles(Collections.singletonList(userRole));
 
         return userRepository.save(user);
     }

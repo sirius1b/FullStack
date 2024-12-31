@@ -25,6 +25,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests( (request) ->
                         request
                                 .requestMatchers("/user/**").permitAll()
+                                .requestMatchers("/api/admin").hasAuthority("ADMIN")
+                                .requestMatchers("/api/user").hasAuthority("USER")
                                 .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -33,6 +35,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
     @Bean
     public JwtAuthFilter jwtAuthFilter(){

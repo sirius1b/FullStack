@@ -2,6 +2,7 @@ package com.sirius1b.auth.controllers;
 
 
 import com.sirius1b.auth.dtos.*;
+import com.sirius1b.auth.exceptions.CredentialException;
 import com.sirius1b.auth.exceptions.TokenNotFoundException;
 import com.sirius1b.auth.exceptions.UserNotFoundException;
 import com.sirius1b.auth.models.Token;
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public TokenRespDto login(@RequestBody LoginDto request) throws UserNotFoundException {
+    public TokenRespDto login(@RequestBody LoginDto request) throws UserNotFoundException, CredentialException {
         log.info(request.toString());
         Token token = userService.login(request.getEmail(), request.getPassword());
         return TokenRespDto.from(token);

@@ -19,4 +19,10 @@ public class ExceptionHandler {
         ExceptionDto exceptionDto = new ExceptionDto(e.getMessage(), e.getCode());
         return new ResponseEntity<ExceptionDto>(exceptionDto, HttpStatus.NOT_FOUND);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(CredentialException.class)
+    public ResponseEntity<ExceptionDto> handleUserNotFound(CredentialException e){
+        ExceptionDto exceptionDto = new ExceptionDto(e.getMessage(), e.getCode());
+        return new ResponseEntity<ExceptionDto>(exceptionDto, HttpStatus.NOT_FOUND);
+    }
 }
